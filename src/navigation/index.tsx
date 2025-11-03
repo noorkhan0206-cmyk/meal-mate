@@ -5,14 +5,19 @@ import {
   StaticParamList,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Home } from 'lucide-react-native';
 import WeeklyPlannerScreen from '../screens/WeeklyPlannerScreen';
 // import { Home } from '../screens/Home';
+import AddNewMeal from '@screens/AddNewMeal';
 import SplashScreen from '@screens/SplashScreen';
 import WelcomeScreen from '@screens/WelcomeScreen';
-import AddNewMeal from '@screens/AddNewMeal';
+
 import FavoriteScreen from '@screens/FavoriteScreen';
+import ForgotPasswordScreen from '@screens/ForgotPasswordScreen';
+import LoginScreen from '@screens/LoginScreen';
 import Settings from '@screens/Settings';
-import { Home } from 'lucide-react-native';
+import SignupScreen from '@screens/SignupScreen';
+
 import { NotFound } from '../screens/NotFound';
 
 // import { HapticTab } from "@/components/HapticTab";
@@ -50,6 +55,24 @@ const RootStack = createNativeStackNavigator({
   screens: {
     Welcome: {
       screen: SplashScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    Login: {
+      screen: LoginScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    Signup: {
+      screen: SignupScreen,
+      options: {
+        headerShown: false,
+      },
+    },
+    ForgotPassword: {
+      screen: ForgotPasswordScreen,
       options: {
         headerShown: false,
       },

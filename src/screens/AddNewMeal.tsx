@@ -1,28 +1,38 @@
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useAppSelector } from '@store';
+import { authSelector } from '@store/auth/selectors';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-  StatusBar,
   Alert,
   Image,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
 } from 'react-native';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
+import { addMeal, convertImageToBase64 } from '../services/mealsService';
 import { useThemeContext } from '../theme/themeContext';
 
 export default function AddNewMeal() {
   const navigation = useNavigation();
+  const route = useRoute();
   const { isDark, theme } = useThemeContext();
+  const userData = useAppSelector(authSelector.getUserData);
+
+  const dayOfWeek = (route.params as any)?.day || 'Monday';
+
   const [mealTitle, setMealTitle] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  
+  const [isSaving, setIsSaving] = useState(false);
+
   // Dynamic styles based on theme
   const dynamicStyles = {
     container: {
@@ -91,7 +101,9 @@ export default function AddNewMeal() {
 
   // Handle add icon press
   const handleAddPress = () => {
-    Alert.alert('Quick Add', 'Quick add feature coming soon!', [{ text: 'OK' }]);
+    Alert.alert('Quick Add', 'Quick add feature coming soon!', [
+      { text: 'OK' },
+    ]);
   };
 
   // Handle settings icon press
@@ -101,10 +113,14 @@ export default function AddNewMeal() {
 
   // Handle image picker
   const handleImagePicker = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
     if (permissionResult.granted === false) {
-      Alert.alert('Permission Required', 'Permission to access camera roll is required!');
+      Alert.alert(
+        'Permission Required',
+        'Permission to access camera roll is required!',
+      );
       return;
     }
 
@@ -122,7 +138,7 @@ export default function AddNewMeal() {
   };
 
   // Handle save meal
-  const handleSaveMeal = () => {
+  const handleSaveMeal = async () => {
     if (!mealTitle.trim()) {
       Alert.alert('Required Field', 'Please enter a meal title');
       return;
@@ -131,17 +147,56 @@ export default function AddNewMeal() {
       Alert.alert('Required Field', 'Please enter ingredients');
       return;
     }
+    if (!userData?.uid) {
+      Alert.alert('Error', 'Please sign in to save meals');
+      return;
+    }
 
-    Alert.alert(
-      'Success',
-      `Meal "${mealTitle}" has been saved!`,
-      [
-        {
-          text: 'OK',
-          onPress: () => navigation.goBack(),
-        },
-      ]
+    console.log(
+      'mealTitle : ',
+      mealTitle,
+      'ingredients : ',
+      ingredients,
+      'dayOfWeek : ',
+      dayOfWeek,
+      'userId :',
+      userData?.uid,
     );
+
+    setIsSaving(true);
+    try {
+      let imageBase64: string | undefined;
+
+      // Convert image to base64 if selected
+      if (selectedImage) {
+        imageBase64 = await convertImageToBase64(selectedImage);
+      }
+
+      // Save meal to Firestore
+      await addMeal({
+        title: mealTitle,
+        ingredients,
+        imageBase64,
+        dayOfWeek,
+        userId: userData.uid,
+      });
+
+      Alert.alert(
+        'Success',
+        `Meal "${mealTitle}" has been saved to ${dayOfWeek}!`,
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack(),
+          },
+        ],
+      );
+    } catch (error) {
+      console.error('Error saving meal:', error);
+      Alert.alert('Error', 'Failed to save meal. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Handle cancel
@@ -156,13 +211,13 @@ export default function AddNewMeal() {
           style: 'destructive',
           onPress: () => navigation.goBack(),
         },
-      ]
+      ],
     );
   };
 
   return (
     <View style={dynamicStyles.container}>
-      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
       {/* Header */}
       <View style={dynamicStyles.header}>
@@ -210,7 +265,9 @@ export default function AddNewMeal() {
 
         {/* Title Section */}
         <Text style={dynamicStyles.mainTitle}>Add New Meal</Text>
-        <Text style={dynamicStyles.subtitle}>Create a new meal for your collection</Text>
+        <Text style={dynamicStyles.subtitle}>
+          Create a new meal for your collection
+        </Text>
 
         {/* Meal Title Input */}
         <View style={styles.inputContainer}>
@@ -220,7 +277,7 @@ export default function AddNewMeal() {
           <TextInput
             style={dynamicStyles.input}
             placeholder="e.g., Spaghetti Carbonara"
-            placeholderTextColor={isDark ? "#95A5A6" : "#999"}
+            placeholderTextColor={isDark ? '#95A5A6' : '#999'}
             value={mealTitle}
             onChangeText={setMealTitle}
           />
@@ -234,7 +291,7 @@ export default function AddNewMeal() {
           <TextInput
             style={[dynamicStyles.input, styles.textArea]}
             placeholder="List your ingredients, one per line or separated by commas"
-            placeholderTextColor={isDark ? "#95A5A6" : "#999"}
+            placeholderTextColor={isDark ? '#95A5A6' : '#999'}
             value={ingredients}
             onChangeText={setIngredients}
             multiline
@@ -249,13 +306,15 @@ export default function AddNewMeal() {
           <TextInput
             style={dynamicStyles.input}
             placeholder="https://example.com/image.jpg"
-            placeholderTextColor={isDark ? "#95A5A6" : "#999"}
+            placeholderTextColor={isDark ? '#95A5A6' : '#999'}
             value={imageUrl}
             onChangeText={setImageUrl}
             keyboardType="url"
             autoCapitalize="none"
           />
-          <Text style={dynamicStyles.helperText}>Paste a URL to an image of your meal</Text>
+          <Text style={dynamicStyles.helperText}>
+            Paste a URL to an image of your meal
+          </Text>
         </View>
 
         {/* Image Preview */}
@@ -272,9 +331,15 @@ export default function AddNewMeal() {
             />
           ) : (
             <View style={dynamicStyles.imagePlaceholder}>
-              <MaterialIcons name="image" size={48} color={isDark ? "#7F8C8D" : "#ccc"} />
+              <MaterialIcons
+                name="image"
+                size={48}
+                color={isDark ? '#7F8C8D' : '#ccc'}
+              />
               <Text style={dynamicStyles.placeholderText}>No image added</Text>
-              <Text style={dynamicStyles.placeholderSubtext}>Tap to select from gallery</Text>
+              <Text style={dynamicStyles.placeholderSubtext}>
+                Tap to select from gallery
+              </Text>
             </View>
           )}
         </TouchableOpacity>
@@ -290,11 +355,16 @@ export default function AddNewMeal() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.saveButton}
+            style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}
             onPress={handleSaveMeal}
             activeOpacity={0.7}
+            disabled={isSaving}
           >
-            <Text style={styles.saveButtonText}>Save Meal</Text>
+            {isSaving ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.saveButtonText}>Save Meal</Text>
+            )}
           </TouchableOpacity>
         </View>
 
@@ -438,6 +508,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
     marginBottom: 20,
+  },
+  saveButtonDisabled: {
+    opacity: 0.6,
   },
   cancelButton: {
     flex: 1,

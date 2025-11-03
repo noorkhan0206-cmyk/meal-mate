@@ -1,26 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Animated,
   StatusBar,
-  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { useThemeContext } from '../theme/themeContext';
+import { useAppDispatch } from '@store';
+import { restoreAuthState } from '@store/auth/actions';
 import MealMateLogo from '../components/MealMateLogo';
 import GradientText from '../components/GradientText';
+import { Colours } from '../theme/colors';
 
 const AppSplashScreen = () => {
   const navigation = useNavigation();
   const { isDark } = useThemeContext();
+  const dispatch = useAppDispatch();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   // Use different gradient for dark mode
   const gradientColors: readonly [string, string, ...string[]] = isDark
-    ? ['#1A1A2E', '#16213E', '#0F3460']
-    : ['#5DADE2', '#48C9B0', '#FFB6C1'];
+    ? ['#2A1F3D', '#3D2F52', '#4A3F5C']
+    : ['#FDFCFE', '#F9F7FC', '#F5F3F8'];
 
   // Persist animation values across renders
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -42,14 +47,28 @@ const AppSplashScreen = () => {
       }),
     ]).start();
 
-    // Navigate to Home after delay
-    const timer = setTimeout(() => {
-      navigation.navigate('HomeTabs');
-    }, 5000);
+    // Check auth state and navigate
+    const checkAuthAndNavigate = async () => {
+      try {
+        // Restore auth state from Firebase
+        await dispatch(restoreAuthState()).unwrap();
 
-    // Clean up the timer properly
-    return () => clearTimeout(timer);
-  }, [navigation, fadeAnim, scaleAnim]);
+        // Wait for animation to complete
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        // Navigate to WelcomeScreen (which will show appropriate buttons)
+        navigation.navigate('HomeTabs');
+      } catch (error) {
+        // If auth check fails, still navigate after animation
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        navigation.navigate('HomeTabs');
+      } finally {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuthAndNavigate();
+  }, [navigation, fadeAnim, scaleAnim, dispatch]);
 
   return (
     <LinearGradient
@@ -71,7 +90,17 @@ const AppSplashScreen = () => {
         {/* App Name with Gradient */}
         <GradientText style={styles.title}>Mealmate.</GradientText>
 
-        <Text style={styles.subtitle}>Plan. Cook. Enjoy. 🍴</Text>
+        <Text style={[styles.subtitle, isDark && styles.subtitleDark]}>
+          Plan. Cook. Enjoy. 🍴
+        </Text>
+
+        {isCheckingAuth && (
+          <ActivityIndicator
+            size="small"
+            color={isDark ? Colours.primarySecondary : Colours.primaryMain}
+            style={styles.loader}
+          />
+        )}
       </Animated.View>
     </LinearGradient>
   );
@@ -97,13 +126,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 18,
-    color: '#FFFFFF',
+    color: Colours.greyMain,
     marginTop: 16,
     fontWeight: '500',
     letterSpacing: 0.5,
-    textShadowColor: 'rgba(0, 0, 0, 0.1)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
+  },
+  subtitleDark: {
+    color: Colours.greyMedium,
+  },
+  loader: {
+    marginTop: 24,
   },
 });
 

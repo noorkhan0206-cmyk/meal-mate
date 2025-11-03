@@ -1,17 +1,15 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, StatusBar } from 'react-native';
-import {
-  Header,
-  TitleSection,
-  DayCard,
-  FloatingActionButton,
-} from '../components/WeeklyPlanner';
+import React, { useState, useCallback } from 'react';
+import { ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { DayCard, Header, TitleSection } from '../components/WeeklyPlanner';
+import { DAYS_OF_WEEK } from '../constants/weeklyPlanner';
 import { useWeeklyPlannerNavigation } from '../hooks/useWeeklyPlannerNavigation';
 import { useWeeklyPlannerStyles } from '../hooks/useWeeklyPlannerStyles';
-import { DAYS_OF_WEEK } from '../constants/weeklyPlanner';
+import { useAppSelector } from '@store';
+import { authSelector } from '@store/auth/selectors';
+import { getAllUserMeals, Meal } from '../services/mealsService';
 
 const WeeklyPlannerScreen: React.FC = () => {
-  // Custom hooks for separation of concerns
   const { isDark, dynamicStyles } = useWeeklyPlannerStyles();
   const {
     navigateToAddMeal,
@@ -20,6 +18,36 @@ const WeeklyPlannerScreen: React.FC = () => {
     navigateToSplash,
     showCalendarAlert,
   } = useWeeklyPlannerNavigation();
+
+  const userData = useAppSelector(authSelector.getUserData);
+  const [meals, setMeals] = useState<Meal[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch meals when screen comes into focus
+  const fetchMeals = async () => {
+    if (!userData?.uid) return;
+
+    setLoading(true);
+    try {
+      const userMeals = await getAllUserMeals(userData.uid);
+      setMeals(userMeals);
+    } catch (error) {
+      console.error('Error fetching meals:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals();
+    }, [userData?.uid]),
+  );
+
+  // Get meals for a specific day
+  const getMealsForDay = (day: string): Meal[] => {
+    return meals.filter((meal) => meal.dayOfWeek === day);
+  };
 
   return (
     <View style={[styles.container, dynamicStyles.container]}>
@@ -51,24 +79,27 @@ const WeeklyPlannerScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {DAYS_OF_WEEK.map((day, index) => (
-          <DayCard
-            key={`${day}-${index}`}
-            day={day}
-            mealsCount={0}
-            onAddMeal={navigateToAddMeal}
-            backgroundColor={dynamicStyles.dayCard.backgroundColor}
-            titleColor={dynamicStyles.dayTitle.color}
-            noMealTextColor={dynamicStyles.noMealText.color}
-          />
-        ))}
+        {DAYS_OF_WEEK.map((day, index) => {
+          const dayMeals = getMealsForDay(day);
+          return (
+            <DayCard
+              key={`${day}-${index}`}
+              day={day}
+              meals={dayMeals}
+              onAddMeal={() => navigateToAddMeal(day)}
+              backgroundColor={dynamicStyles.dayCard.backgroundColor}
+              titleColor={dynamicStyles.dayTitle.color}
+              noMealTextColor={dynamicStyles.noMealText.color}
+            />
+          );
+        })}
       </ScrollView>
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button
       <FloatingActionButton
         label="Create New Meal"
         onPress={navigateToAddMeal}
-      />
+      /> */}
     </View>
   );
 };

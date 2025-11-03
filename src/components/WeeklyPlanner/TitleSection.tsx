@@ -23,9 +23,11 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
 }) => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <Ionicons name={iconName} size={32} color={iconColor} />
+      {/* <Ionicons name={iconName} size={32} color={iconColor} /> */}
       <Text style={[styles.title, { color: titleColor }]}>{title}</Text>
-      <Text style={[styles.subtitle, { color: subtitleColor }]}>{subtitle}</Text>
+      <Text style={[styles.subtitle, { color: subtitleColor }]}>
+        {subtitle}
+      </Text>
     </View>
   );
 };

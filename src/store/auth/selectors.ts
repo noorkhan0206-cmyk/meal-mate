@@ -8,8 +8,10 @@ const sliceSelector = (state: RootState) => {
 export const authSelector = {
   getErrorMessage: createSelector(sliceSelector, (state) => state.errorMessage),
   getIsLoading: createSelector(sliceSelector, (state) => state.loading),
-  isFormLoading: createSelector(
+  getUserData: createSelector(sliceSelector, (state) => state.userData),
+  getIsAuthenticated: createSelector(
     sliceSelector,
-    (state) => state.isFormSubmitted,
+    (state) => state.isAuthenticated,
   ),
+  getUser: createSelector(sliceSelector, (state) => state.userData),
 };

@@ -10,13 +10,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useThemeContext } from '../theme/themeContext';
+import { useAppSelector } from '@store';
+import { authSelector } from '@store/auth/selectors';
+import { Colours } from '../theme/colors';
 
 export default function WelcomeScreen() {
   const navigation = useNavigation();
   const { isDark } = useThemeContext();
-  
+  const isAuthenticated = useAppSelector(authSelector.getIsAuthenticated);
+
   // Use different gradient for dark mode
-  const gradientColors: readonly [string, string, ...string[]] = isDark 
+  const gradientColors: readonly [string, string, ...string[]] = isDark
     ? ['#1A1A2E', '#16213E', '#0F3460']
     : ['#E7F6F2', '#F8C8DC', '#FFFFFF'];
 
@@ -27,7 +31,7 @@ export default function WelcomeScreen() {
       end={{ x: 0, y: 1 }}
       style={styles.container}
     >
-      <StatusBar barStyle={isDark ? "light-content" : "dark-content"} />
+      <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
 
       {/* Logo */}
       <View style={styles.iconContainer}>
@@ -43,18 +47,38 @@ export default function WelcomeScreen() {
         your week, and never wonder {'\n'}"what’s for dinner?" again.
       </Text>
 
-      {/* Button */}
-      <TouchableOpacity
-        style={styles.startButton}
-        onPress={() => navigation.navigate('WeeklyPlanner')}
-      >
-        <Text
-          style={styles.startButtonText}
-          // onPress={() => navigation.navigate('WeeklyPlanner')}
-        >
-          Start Planning
-        </Text>
-      </TouchableOpacity>
+      {/* Buttons */}
+      <View style={styles.buttonsContainer}>
+        {isAuthenticated ? (
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={() => navigation.navigate('WeeklyPlanner')}
+          >
+            <Text style={styles.startButtonText}>Start Planning</Text>
+          </TouchableOpacity>
+        ) : (
+          <>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => navigation.navigate('Login')}
+            >
+              <Text style={styles.loginButtonText}>Log In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.signupButton}
+              onPress={() => navigation.navigate('Signup')}
+            >
+              <Text style={styles.signupButtonText}>Sign Up</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.guestButton}
+              onPress={() => navigation.navigate('WeeklyPlanner')}
+            >
+              <Text style={styles.guestButtonText}>Continue as Guest</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
 
       {/* Bottom Features */}
       <View style={styles.featuresContainer}>
@@ -128,17 +152,73 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     paddingHorizontal: 10,
   },
+  buttonsContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 50,
+    gap: 12,
+  },
   startButton: {
-    backgroundColor: '#5DADE2',
+    backgroundColor: Colours.primaryMain,
     paddingVertical: 18,
     paddingHorizontal: 40,
-    borderRadius: 28,
-    marginBottom: 50,
-    shadowColor: '#5DADE2',
+    borderRadius: 16,
+    shadowColor: Colours.primaryMain,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.35,
     shadowRadius: 12,
     elevation: 8,
+    alignItems: 'center',
+  },
+  loginButton: {
+    backgroundColor: Colours.primaryMain,
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 16,
+    shadowColor: Colours.primaryMain,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 6,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '800',
+    fontSize: 17,
+    letterSpacing: 0.5,
+  },
+  signupButton: {
+    backgroundColor: Colours.primarySecondary,
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: Colours.primarySecondary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  signupButtonText: {
+    color: Colours.blackDark,
+    fontWeight: '800',
+    fontSize: 17,
+    letterSpacing: 0.5,
+  },
+  guestButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 16,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Colours.primaryMain,
+  },
+  guestButtonText: {
+    color: Colours.primaryMain,
+    fontWeight: '700',
+    fontSize: 16,
+    letterSpacing: 0.5,
   },
   startButtonText: {
     color: '#FFFFFF',
