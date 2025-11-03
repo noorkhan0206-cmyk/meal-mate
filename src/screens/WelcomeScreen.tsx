@@ -17,8 +17,8 @@ export default function WelcomeScreen() {
   
   // Use different gradient for dark mode
   const gradientColors: readonly [string, string, ...string[]] = isDark 
-    ? ['#1A1A2E', '#16213E', '#0F3460']
-    : ['#E7F6F2', '#F8C8DC', '#FFFFFF'];
+    ? ['#1A2728', '#2F4244', '#3D5A5C']
+    : ['#E8EDEB', '#B4C7BE', '#FFFFFF'];
 
   return (
     <LinearGradient
@@ -32,7 +32,7 @@ export default function WelcomeScreen() {
       {/* Logo */}
       <View style={styles.iconContainer}>
         <View style={styles.iconBackground}>
-          <Ionicons name="restaurant-outline" size={36} color="#5DADE2" />
+          <Ionicons name="restaurant-outline" size={36} color="#4A7C7E" />
         </View>
       </View>
 
@@ -59,7 +59,7 @@ export default function WelcomeScreen() {
       {/* Bottom Features */}
       <View style={styles.featuresContainer}>
         <View style={styles.featureCard}>
-          <Ionicons name="calendar-outline" size={28} color="#5DADE2" />
+          <Ionicons name="calendar-outline" size={28} color="#4A7C7E" />
           <Text style={styles.featureTitle}>Weekly Planner</Text>
           <Text style={styles.featureDesc}>
             Organize meals for the entire week with an intuitive calendar view.
@@ -70,7 +70,7 @@ export default function WelcomeScreen() {
           <MaterialCommunityIcons
             name="silverware-fork-knife"
             size={28}
-            color="#48C9B0"
+            color="#7FA89A"
           />
           <Text style={styles.featureTitle}>Recipe Collection</Text>
           <Text style={styles.featureDesc}>
@@ -79,7 +79,7 @@ export default function WelcomeScreen() {
         </View>
 
         <View style={styles.featureCard}>
-          <Ionicons name="heart" size={28} color="#FFB6C1" />
+          <Ionicons name="heart" size={28} color="#B4C7BE" />
           <Text style={styles.featureTitle}>Favorites</Text>
           <Text style={styles.featureDesc}>
             Quick access to your most loved recipes for easy planning.
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 20,
     borderRadius: 30,
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 12,
@@ -129,12 +129,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   startButton: {
-    backgroundColor: '#5DADE2',
+    backgroundColor: '#4A7C7E',
     paddingVertical: 18,
     paddingHorizontal: 40,
     borderRadius: 28,
     marginBottom: 50,
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.35,
     shadowRadius: 12,

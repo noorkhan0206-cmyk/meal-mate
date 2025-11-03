@@ -25,7 +25,7 @@ export const DayCard: React.FC<DayCardProps> = ({
       
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton} onPress={onAddMeal}>
-        <Ionicons name="add" size={32} color="#5DADE2" />
+        <Ionicons name="add" size={32} color="#4A7C7E" />
       </TouchableOpacity>
       
       {/* No Meal Text */}
@@ -63,11 +63,11 @@ const styles = StyleSheet.create({
     width: 76,
     height: 76,
     borderRadius: 38,
-    backgroundColor: '#E7F6F2',
+    backgroundColor: '#E8EDEB',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 14,
-    shadowColor: '#48C9B0',
+    shadowColor: '#7FA89A',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 6,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   addMealText: {
     fontSize: 15,
     fontWeight: '600',
-    color: '#5DADE2',
+    color: '#4A7C7E',
     letterSpacing: 0.2,
   },
 });

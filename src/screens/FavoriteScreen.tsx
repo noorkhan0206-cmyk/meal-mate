@@ -171,7 +171,7 @@ export default function FavoriteScreen() {
         {/* Title Section */}
         <View style={dynamicStyles.titleSection}>
           <View style={styles.titleRow}>
-            <Ionicons name="heart" size={28} color="#FFB6C1" />
+            <Ionicons name="heart" size={28} color="#B4C7BE" />
             <Text style={dynamicStyles.mainTitle}>Favorites</Text>
           </View>
           <Text style={dynamicStyles.subtitle}>Your favorite meals collection</Text>
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   favoriteButton: {
-    backgroundColor: '#FFB6C1',
+    backgroundColor: '#B4C7BE',
   },
   scrollView: {
     flex: 1,
@@ -392,12 +392,12 @@ const styles = StyleSheet.create({
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#5DADE2',
+    backgroundColor: '#4A7C7E',
     paddingVertical: 16,
     paddingHorizontal: 28,
     borderRadius: 28,
     gap: 8,
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,

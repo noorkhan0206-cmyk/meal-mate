@@ -58,7 +58,7 @@ const FavoriteScreen: React.FC = () => {
           title="Favorites"
           subtitle="Your favorite meals collection"
           iconName="heart"
-          iconColor="#FFB6C1"
+          iconColor="#B4C7BE"
           backgroundColor={colors.card}
           titleColor={colors.text}
           subtitleColor={colors.textSecondary}

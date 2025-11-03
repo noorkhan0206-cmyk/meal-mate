@@ -39,9 +39,9 @@ export const SettingItem: React.FC<SettingItemProps> = ({
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: '#C8E6D5', true: '#A8E6CF' }}
-        thumbColor={value ? '#48C9B0' : '#FFFFFF'}
-        ios_backgroundColor="#C8E6D5"
+        trackColor={{ false: '#D8E0DD', true: '#B4C7BE' }}
+        thumbColor={value ? '#7FA89A' : '#FFFFFF'}
+        ios_backgroundColor="#D8E0DD"
       />
     </View>
   );

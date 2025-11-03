@@ -170,7 +170,7 @@ export default function AddNewMeal() {
           style={styles.headerIcon}
           onPress={handleCalendarPress}
         >
-          <Ionicons name="calendar-outline" size={24} color="#5DADE2" />
+          <Ionicons name="calendar-outline" size={24} color="#4A7C7E" />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   addButton: {
-    backgroundColor: '#5DADE2',
+    backgroundColor: '#4A7C7E',
   },
   scrollView: {
     flex: 1,
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
   required: {
-    color: '#5DADE2',
+    color: '#4A7C7E',
   },
   input: {
     backgroundColor: '#FFFFFF',
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     fontSize: 15,
     color: '#2C3E50',
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
@@ -462,12 +462,12 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: '#5DADE2',
+    backgroundColor: '#4A7C7E',
     paddingVertical: 18,
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,

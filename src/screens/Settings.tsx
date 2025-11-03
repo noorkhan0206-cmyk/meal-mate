@@ -144,7 +144,7 @@ export default function Settings() {
         {/* Title Section */}
         <View style={dynamicStyles.titleSection}>
           <View style={styles.titleRow}>
-            <Ionicons name="settings-outline" size={28} color="#5DADE2" />
+            <Ionicons name="settings-outline" size={28} color="#4A7C7E" />
             <Text style={dynamicStyles.mainTitle}>Settings</Text>
           </View>
           <Text style={dynamicStyles.subtitle}>Customize your MealMate experience</Text>
@@ -169,9 +169,9 @@ export default function Settings() {
               <Switch
                 value={notificationsEnabled}
                 onValueChange={setNotificationsEnabled}
-                trackColor={{ false: '#C8E6D5', true: '#A8E6CF' }}
-                thumbColor={notificationsEnabled ? '#48C9B0' : '#FFFFFF'}
-                ios_backgroundColor="#C8E6D5"
+                trackColor={{ false: '#D8E0DD', true: '#B4C7BE' }}
+                thumbColor={notificationsEnabled ? '#7FA89A' : '#FFFFFF'}
+                ios_backgroundColor="#D8E0DD"
               />
             </View>
 
@@ -192,9 +192,9 @@ export default function Settings() {
               <Switch
                 value={isDark}
                 onValueChange={toggleTheme}
-                trackColor={{ false: '#C8E6D5', true: '#A8E6CF' }}
-                thumbColor={isDark ? '#48C9B0' : '#FFFFFF'}
-                ios_backgroundColor="#C8E6D5"
+                trackColor={{ false: '#D8E0DD', true: '#B4C7BE' }}
+                thumbColor={isDark ? '#7FA89A' : '#FFFFFF'}
+                ios_backgroundColor="#D8E0DD"
               />
             </View>
           </View>
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   settingsButton: {
-    backgroundColor: '#48C9B0',
+    backgroundColor: '#7FA89A',
   },
   scrollView: {
     flex: 1,
@@ -395,14 +395,14 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   saveButton: {
-    backgroundColor: '#5DADE2',
+    backgroundColor: '#4A7C7E',
     marginHorizontal: 20,
     marginTop: 32,
     paddingVertical: 18,
     borderRadius: 28,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,

@@ -19,8 +19,8 @@ const AppSplashScreen = () => {
 
   // Use different gradient for dark mode
   const gradientColors: readonly [string, string, ...string[]] = isDark
-    ? ['#1A1A2E', '#16213E', '#0F3460']
-    : ['#5DADE2', '#48C9B0', '#FFB6C1'];
+    ? ['#1A2728', '#2F4244', '#3D5A5C']
+    : ['#B4C7BE', '#7FA89A', '#4A7C7E'];
 
   // Persist animation values across renders
   const fadeAnim = useRef(new Animated.Value(0)).current;

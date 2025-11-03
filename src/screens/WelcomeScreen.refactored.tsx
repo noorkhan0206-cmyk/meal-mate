@@ -11,26 +11,26 @@ const WelcomeScreen: React.FC = () => {
   const { isDark } = useCommonStyles();
 
   const gradientColors: readonly [string, string, ...string[]] = isDark
-    ? ['#1A1A2E', '#16213E', '#0F3460']
-    : ['#E7F6F2', '#F8C8DC', '#FFFFFF'];
+    ? ['#1A2728', '#2F4244', '#3D5A5C']
+    : ['#E8EDEB', '#B4C7BE', '#FFFFFF'];
 
   const features = [
     {
       iconName: 'calendar-outline',
-      iconColor: '#5DADE2',
+      iconColor: '#4A7C7E',
       title: 'Weekly Planner',
       description: 'Organize meals for the entire week with an intuitive calendar view.',
     },
     {
       iconName: 'silverware-fork-knife',
-      iconColor: '#48C9B0',
+      iconColor: '#7FA89A',
       title: 'Recipe Collection',
       description: 'Save your favorite meals with ingredients and beautiful photos.',
       iconLibrary: 'MaterialCommunityIcons' as const,
     },
     {
       iconName: 'heart',
-      iconColor: '#FFB6C1',
+      iconColor: '#B4C7BE',
       title: 'Favorites',
       description: 'Quick access to your most loved recipes for easy planning.',
     },

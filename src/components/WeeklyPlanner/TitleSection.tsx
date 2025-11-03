@@ -16,7 +16,7 @@ export const TitleSection: React.FC<TitleSectionProps> = ({
   title,
   subtitle,
   iconName = 'calendar',
-  iconColor = '#5DADE2',
+  iconColor = '#4A7C7E',
   backgroundColor,
   titleColor,
   subtitleColor,

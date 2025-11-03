@@ -14,7 +14,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   label,
   onPress,
   iconName = 'add',
-  backgroundColor = '#5DADE2',
+  backgroundColor = '#4A7C7E',
   textColor = '#FFFFFF',
 }) => {
   return (
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: 28,
     gap: 8,
-    shadowColor: '#5DADE2',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 12,

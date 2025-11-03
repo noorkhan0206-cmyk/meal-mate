@@ -40,7 +40,6 @@ export function App() {
 
   return (
     <Provider store={store}>
-     
       <SafeAreaProvider style={appStyles}>
         <GestureHandlerRootView style={appStyles}>
           <ThemeProvider>
@@ -56,16 +55,14 @@ export function App() {
                 SplashScreen.hideAsync();
               }}
             />
-         
           </ThemeProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
-  
     </Provider>
   );
 }
 
 const appStyles = {
   flex: 1,
-  backgroundColor:'green'
+  backgroundColor: '#F8F9F9',
 };

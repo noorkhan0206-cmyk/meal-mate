@@ -13,7 +13,7 @@ const GradientText: React.FC<GradientTextProps> = ({
   style 
 }) => {
   return (
-    <Text style={[styles.text, { color: '#5DADE2' }, style]}>
+    <Text style={[styles.text, { color: '#4A7C7E' }, style]}>
       {children}
     </Text>
   );

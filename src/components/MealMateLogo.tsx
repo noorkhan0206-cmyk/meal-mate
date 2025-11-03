@@ -17,9 +17,9 @@ const MealMateLogo: React.FC<MealMateLogoProps> = ({ size = 100, showText = true
       <Svg width={iconSize} height={iconSize} viewBox="0 0 100 100">
         <Defs>
           <LinearGradient id="yellowBlueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <Stop offset="0%" stopColor="#FFC107" stopOpacity="1" />
-            <Stop offset="50%" stopColor="#5DADE2" stopOpacity="1" />
-            <Stop offset="100%" stopColor="#2196F3" stopOpacity="1" />
+            <Stop offset="0%" stopColor="#B4C7BE" stopOpacity="1" />
+            <Stop offset="50%" stopColor="#7FA89A" stopOpacity="1" />
+            <Stop offset="100%" stopColor="#4A7C7E" stopOpacity="1" />
           </LinearGradient>
         </Defs>
         
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   gradientText: {
-    color: '#5DADE2', // Fallback color (will be gradient in actual implementation)
+    color: '#4A7C7E', // Fallback color (will be gradient in actual implementation)
   },
 });
 

@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
     <View style={[styles.header, { backgroundColor }]}>
       {/* Logo Button */}
       <TouchableOpacity style={styles.logoButton} onPress={onLogoPress}>
-        <Ionicons name="restaurant" size={28} color="#5DADE2" />
+        <Ionicons name="restaurant" size={28} color="#4A7C7E" />
       </TouchableOpacity>
 
       {/* Action Icons */}
@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF5E6',
-    shadowColor: '#5DADE2',
+    backgroundColor: '#E8EDEB',
+    shadowColor: '#4A7C7E',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
